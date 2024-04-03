@@ -19,7 +19,7 @@ const getUsers = async (req, res) => {
         const query = req.query;
         let params;
         req.query.page = req.query.page && req.query.page !== '' ? parseInt(req.query.page) : 1;
-        req.query.per_page = req.query.per_page && req.query.per_page !== '' ? parseInt(req.query.per_page) : 10;
+        req.query.take = req.query.take && req.query.take !== '' ? parseInt(req.query.take) : 10;
         const {
             take,
             skip
@@ -58,8 +58,8 @@ const getUsers = async (req, res) => {
         });
 
         const link = getLink(req);
-        const queryParams = getSomeProperties(req.query, ['page', 'per_page', 'search', 'status']);
-        let resultData = paginateData(queryParams, data, req.query.page, total, req.query.per_page, link, skip);
+        const queryParams = getSomeProperties(req.query, ['page', 'take', 'search', 'status']);
+        let resultData = paginateData(queryParams, data, req.query.page, total, req.query.take, link, skip);
 
         return res.jsond(200, 'Success', 'Success', resultData);
 

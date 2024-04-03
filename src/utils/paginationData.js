@@ -1,11 +1,11 @@
-const paginateData = (query, data, page = 1, total, per_page, link, skip) => {
+const paginateData = (query, data, page = 1, total, take, link, skip) => {
 
     const dynamicLinks = {};
     page = parseInt(page);
 
-    const lastPage = Math.ceil(total / per_page) || 1;
+    const lastPage = Math.ceil(total / take) || 1;
     const from = data.length ? skip + 1 : 0;
-    const to = (skip + data.length < skip + per_page) ? skip + data.length : skip + per_page;
+    const to = (skip + data.length < skip + take) ? skip + data.length : skip + take;
     delete query.page;
     const startLink = (page - 2) < 1 ? 1 : page - 2;
     const endLink = (page + 2) > lastPage ? lastPage : page + 2;
@@ -19,7 +19,7 @@ const paginateData = (query, data, page = 1, total, per_page, link, skip) => {
         meta: {
             page: {
                 page: page,
-                per_page: data.length,
+                take: data.length,
                 from, to, total,
                 last_page: lastPage,
             },
