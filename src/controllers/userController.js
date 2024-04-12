@@ -121,6 +121,34 @@ const updateUser = async (req, res) => {
     }
 }
 
+const getUserById = async (req, res) => {
+    const id = parseInt(req.params.id);
+    try {
+        let existing = await findFirst(tbl_user, {
+            where : {
+                id: id
+            },
+            select : {
+                name: true,
+                email: true,
+                role: true,
+                status: true,
+                is_delete: true
+            }
+        })
+
+        if (existing === null) {
+            return res.jsond(404, 404, 'failed', 'failed get user by id')
+        }
+
+        return res.jsond(200, 'success', 'successfully get user by id', existing)
+
+    } catch (error) {
+        console.log(error);
+        return res.jsond(500, false, 'Internal Server Error');
+    }
+}
+
 const softDelete = async (req, res) => {
     const id = parseInt(req.params.id);
     try {
@@ -151,4 +179,5 @@ export {
     storeUser,
     updateUser,
     softDelete,
+    getUserById
 }

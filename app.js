@@ -47,9 +47,9 @@ app.use((req, res, next) => {
     }).status(code);
   };
 
-  res.jsond = (httpStatus, code, message, data) => {
+  res.jsond = (httpStatus, status, message, data) => {
     res.json({
-      code: code,
+      status: status,
       message: message,
       data: data
     }).status(httpStatus);

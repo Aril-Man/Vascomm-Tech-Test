@@ -87,6 +87,30 @@ const storeProduct = async (req, res) => {
     }
 }
 
+const getProductById = async (req, res) => {
+    const id = parseInt(req.params.id)
+    try {
+        let existing = await findFirst(tbl_product, {
+            where: {
+                id: id
+            },
+            select : {
+                name: true,
+                price: true,
+                is_delete: true
+            }
+        })
+
+        if (existing === null) return res.jsond(404, 404, 'failed', 'failed get product by id')
+
+        return res.jsond(200, 'success', 'successfully get product by id', existing)
+
+    } catch (error) {
+        console.log(error);
+        return res.jsond(500, false, 'Internal Server Error');
+    }
+}
+
 const updateProduct = async (req, res) => {
     const body = req.body;
     const id = parseInt(req.params.id);
@@ -145,4 +169,5 @@ export {
     storeProduct,
     updateProduct,
     softDelete,
+    getProductById
 }
